@@ -344,7 +344,7 @@ print(f"代码执行时间：{elapsed_time:.4f} 秒")
 # net.eval()
 
 # 评估
-reconstruction_result3, _, en_abundance3, _, _, _ = net(linear_part, nonlinear_part)
+reconstruction_result3, en_abundance3, _, _, _, _ = net(linear_part, nonlinear_part)
 
 decoder_para = net.state_dict()["linear_decoder_layer1.0.weight"].cpu().numpy()
 # print("endmember",decoder_para.shape)

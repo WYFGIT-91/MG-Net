@@ -304,7 +304,7 @@ for epoch in range(EPOCH):
     for i, x in enumerate(train_loader):
         # scheduler.step()
         x = x.cuda()
-        reconstruction_result3, en_abundance3, evidence, probabilities, total_uncertainty, linear_recon = net(
+        reconstruction_result3, x1, evidence, probabilities, total_uncertainty, linear_recon = net(
             linear_part,
             nonlinear_part)  #
         E = net.state_dict()["linear_decoder_layer1.0.weight"]
@@ -313,8 +313,8 @@ for epoch in range(EPOCH):
         abundanceLoss3_linear = SADloss_weigh(linear_recon, linear_part, 1 - total_uncertainty)
         MSELoss3_linear = rmse_loss(linear_recon, linear_part, 1 - total_uncertainty)
         KLD_Loss = 0.1 * KLD_loss(evidence)
-        loss_orth = 0.005 * orthogonal_loss(x1.squeeze(), E.squeeze().T)  # 0.001
-        loss_CE = 10 * criterion(probabilities, x1)  # 1
+        loss_orth = 0.005 * orthogonal_loss(x1.squeeze(), E.squeeze().T)
+        loss_CE = 10 * criterion(probabilities, x1)
 
         Overall_recon_loss = 5 * abundanceLoss3 + 0.01 * MSELoss3
         Linear_recon_loss = (5 * abundanceLoss3_linear + 0.01 * MSELoss3_linear)
